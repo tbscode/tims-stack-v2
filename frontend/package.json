@@ -1,0 +1,53 @@
+{
+  "name": "front",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint",
+    "static": "next build && next export",
+    "prebuild": "NODE_ENV=production ./node_modules/.bin/tailwind build -o styles/tailwindSSR.css",
+    "pretty": "prettier --write \"./{components,pages,rjsf-daisyui-theme,store}/**/*.{js,jsx,ts,tsx,json}\"",
+    "postinstall": "curl -o node_modules/@capacitor/android/capacitor/src/main/assets/native-bridge.js https://raw.githubusercontent.com/tbscode/tims-capacitor/main/android/capacitor/src/main/assets/native-bridge.js"
+  },
+  "dependencies": {
+    "@capacitor/android": "^5.0.2",
+    "@capacitor/core": "^5.0.2",
+    "@capacitor/ios": "^5.0.2",
+    "@capacitor/preferences": "^5.0.2",
+    "@rjsf/core": "^5.9.0",
+    "@rjsf/utils": "^5.9.0",
+    "@rjsf/validator-ajv8": "^5.9.0",
+    "@tailwindcss/typography": "^0.5.9",
+    "@types/node": "18.16.1",
+    "@types/react": "18.2.0",
+    "@types/react-dom": "18.2.1",
+    "autoprefixer": "10.4.14",
+    "critters": "^0.0.19",
+    "daisyui": "^2.51.6",
+    "eslint": "8.39.0",
+    "eslint-config-next": "13.3.1",
+    "lodash": "^4.17.21",
+    "next": "13.3.1",
+    "next-redux-wrapper": "^8.1.0",
+    "postcss": "8.4.23",
+    "react": "18.2.0",
+    "react-datetime": "^3.2.0",
+    "react-dom": "18.2.0",
+    "react-markdown": "^8.0.7",
+    "react-redux": "^8.1.1",
+    "react-select": "^5.7.3",
+    "react-use-websocket": "^4.3.1",
+    "redux": "^4.2.1",
+    "redux-devtools-extension": "^2.13.9",
+    "redux-thunk": "^2.4.2",
+    "tailwindcss": "3.3.2",
+    "typescript": "5.0.4"
+  },
+  "devDependencies": {
+    "@capacitor/cli": "^5.0.2",
+    "prettier": "3.0.0"
+  }
+}
