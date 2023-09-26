@@ -20,12 +20,6 @@ urlpatterns = [
 ]
 
 
-if settings.USE_NEXTJS_PROXY_ROUTES:
-    urlpatterns += [
-        # Route for static files / public folder
-        re_path(r"^(?:_nstat).*$", NextJSProxyView.as_view()),
-        path("", include("django_nextjs.urls")),
-    ]
 
 urlpatterns += [
     path("", include("core.urls")),

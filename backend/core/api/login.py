@@ -1,4 +1,5 @@
 from rest_framework_dataclasses.serializers import DataclassSerializer
+import asyncio
 from typing import Literal, Optional, List, Dict
 from datetime import datetime
 from drf_spectacular.utils import extend_schema
@@ -26,7 +27,7 @@ class LoginInfoSerializer(DataclassSerializer):
         dataclass = LoginInfo
 
 
-async def maybe_populate_db():
+def maybe_populate_db():
     
     has_base_admin = False
     try:
@@ -56,8 +57,8 @@ def login_user(request):
 
     data = serializer.save()
     
+    # TODO: should def be moved elsewhere!
     maybe_populate_db()
-    
     
     user = authenticate(username=data.username, password=data.password)
 

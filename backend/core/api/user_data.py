@@ -69,5 +69,8 @@ def get_user_data(user, request):
 @permission_classes([IsAuthenticated])
 def request_user_data(request):
 
-    response = Response(get_user_data(request.user, request), status=status.HTTP_200_OK, content_type="application/json")
+    ud = get_user_data(request.user, request)
+    response = Response(ud, status=status.HTTP_200_OK)
+    
+    print("TBS got ud", ud)
     return response
