@@ -125,7 +125,7 @@ export const connectionStateAndUserData = async ({ state, userData }) => {
     console.log("COOKIES", getCookiesAsObject());
     try {
       console.log("PROFILE PRE FETCH", userData);
-      const res = await fetch(`${getEnv().serverUrl}/api/user_data`, {
+      const res = await fetch(`${getEnv().serverUrl}/api/user_data/`, {
         method: "GET",
         credentials: "include",
         headers: {
