@@ -29,4 +29,11 @@ services:
       - "3000:3000"
     volumes:
       - ./frontend:/frontend
+    environment:
+      ROOT_URL: 'http://localhost'
+      WEBSOCKET_PROTOCOL: 'ws://'
+  redis:
+    image: redis:5
+    ports:
+      - "6379:6379"
     
