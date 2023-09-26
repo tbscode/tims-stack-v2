@@ -24,8 +24,10 @@ INSTALLED_APPS = [
     'rest_framework.authtoken',
     'corsheaders',
     'core',
+    'django_prometheus'
 ]
 MIDDLEWARE = [
+    'django_prometheus.middleware.PrometheusBeforeMiddleware',
     'django.middleware.security.SecurityMiddleware',
     "whitenoise.middleware.WhiteNoiseMiddleware",
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -35,6 +37,7 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     "corsheaders.middleware.CorsMiddleware",
+    'django_prometheus.middleware.PrometheusAfterMiddleware',
 ]
 AUTH_USER_MODEL = 'core.User'
 DATABASES = {
@@ -62,7 +65,7 @@ if os.environ.get("EXTRA_TRUSTED_ORIGINS", "") != "":
     EXTRA_HOSTS = os.environ.get("EXTRA_TRUSTED_ORIGINS", "").split(",")
     CSRF_TRUSTED_ORIGINS += EXTRA_HOSTS
 
-DB_ENGINE = os.environ.get("DB_ENGINE", "django.db.backends.sqlite3")
+DB_ENGINE = os.environ.get("DB_ENGINE", "django_prometheus.db.backends.sqlite3")
 DATABASES = {
     'default': {
         'ENGINE': DB_ENGINE,
