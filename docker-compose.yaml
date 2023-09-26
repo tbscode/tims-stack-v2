@@ -50,4 +50,31 @@ services:
       - ./prometheus/:/etc/prometheus/
     extra_hosts:
       - "host.docker.internal:host-gateway"
+  mariadb:
+    image: mariadb:10.5
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: 'password'
+      MYSQL_DATABASE: 'timeme'
+      MYSQL_USER: 'timeme'
+      MYSQL_PASSWORD: 'password'
+    volumes:
+      - ./matomo/mariadb:/var/lib/mysql
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+  matomo:
+    image: matomo
+    ports:
+      - "8080:80"
+    environment:
+      MATOMO_DATABASE_HOST: 'host.docker.internal:3306'
+      MATOMO_DATABASE_USERNAME: 'timeme'
+      MATOMO_DATABASE_PASSWORD: 'password'
+      MATOMO_DATABASE_DBNAME: 'timeme'
+      MATOMO_DATABASE_TABLES_PREFIX: 'matomo_'
+    volumes:
+      - ./matomo/html:/var/www/html/
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
     
