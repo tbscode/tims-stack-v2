@@ -65,7 +65,7 @@ sudo microk8s refresh-certs --cert server.crt
 ```
 
 View the updated client certificate: `microk8s config > kubeconfig.yaml`
-Open the `kubeconfig.yaml`
+Open the `kubeconfig.yaml` and edit the `server:` entry.
 
 ```
 ...
@@ -82,3 +82,40 @@ KUBECONFIG="./kubeconfig.yaml" kubectl get pods --all-namespaces
 ```
 
 ## 5. Setting up Matallb
+
+First get <your-domain> ready. 
+Create specific or one wildcard dns entry:
+
+```
+<your-domain> -> <vps-ip>
+*.<your-domain> -> <vps-ip>
+```
+
+Enable `metallb` via `microk8s enable metallb <your-ip>`.
+
+For `metallb` - to work correctly - apply the path described in [github comment](https://github.com/canonical/microk8s/issues/824#issuecomment-1003284063) applied
+
+```bash
+#!/bin/sh
+
+command -v kubectl > /dev/null 2>&1 && KUBECTL=kubectl
+command -v microk8s.kubectl > /dev/null 2>&1 && KUBECTL=microk8s.kubectl
+
+INGTMPFILE=$(mktemp -t ingress_daemonset.XXXXXXXX)
+
+trap "rm -f ${INGTMPFILE}" 0 1 2 3
+
+${KUBECTL} -n ingress get daemonset nginx-ingress-microk8s-controller -o yaml | \
+    sed -e 's|- --publish-status-address=.*|- --publish-service=$(POD_NAMESPACE)/ingress|' > ${INGTMPFILE}
+
+${KUBECTL} diff -f ${INGTMPFILE}
+if [ $? -eq 0 ]; then
+    echo "No changes need to be made"
+else
+    ${KUBECTL} apply -f ${INGTMPFILE}
+fi
+```
+
+Now we can actually use LoadBalancer nodes that distrubte the <vps-IP>.
+
+## 6. Making a cluster
